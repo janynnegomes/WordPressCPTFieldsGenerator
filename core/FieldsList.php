@@ -1,16 +1,13 @@
 <?php
 class FieldsList {
     
-    #properties declaration
-    public $listTitle = '',
-    public $subtitle = '';
-    
-    public $FiedlsCollection = new Field();
+    #properties declaration    
+    public $FiedlsCollection = array();
 
     #constructors
 
     function add_item($artnr, $num) {
-        $this->items[$artnr] += $num;
+        $this->FiedlsCollection[$artnr] += $num;
     }
 
     // Take $num articles of $artnr out of the cart
@@ -27,4 +24,5 @@ class FieldsList {
         }
     }
 }
+
 ?>
