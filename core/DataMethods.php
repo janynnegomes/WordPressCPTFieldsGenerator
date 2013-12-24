@@ -26,18 +26,22 @@ class DataMethods {
 
     }
 
-    private function SaveTable($db_table_name, $args)
+     function Save($db_table_name, $args, $wpdb)
     {
-        global $wpdb; 
+        $db_table_name = $wpdb->prefix . $db_table_name;
 
-        $rows_affected = $wpdb->insert( $db_table_name, $args);            
-       
+        $rows_affected = $wpdb->insert( 'wp_wcptfg_log', array('time'=> current_time('mysql'),
+                    'title' => 'nome: '.$db_table_name));
+
+        $rows_affected = $wpdb->insert( $db_table_name, $args);                   
     }
 
     function Delete($table)
     {
        
     }
+
+
 
    
 }

@@ -1,5 +1,5 @@
 <?php
-class Table extends DataMethods {
+class wcptfg_Table extends DataMethods {
     
     private $_table_name = "wcptfg_tables";
 
@@ -86,11 +86,11 @@ class Table extends DataMethods {
         
         global $wpdb;
 
-        $this->_table_name = $wpdb->prefix . $_table_name;
+        $this->_table_name = $wpdb->prefix . (empty($_table_name)? 'wcptfg_tables' : $_table_name);
 
         #labels 
         $this->_singular_name = $labels["singular_name"];
-        $this->_name = $labels["name"];
+        $this->_name = $name;
         $this->_add_new = $labels['add_new'];
         $this->_add_new_item = $labels['add_new_item'];
         $this->_edit_item = $labels['edit_item'];
@@ -120,13 +120,11 @@ class Table extends DataMethods {
     # Database manipulation functions
 
 
-    function Save()
-    {  
-            
-
+    public function Save()
+    { 
         $isValid = false;
         
-        var_dump($this->_name)    ;
+        //var_dump($this->_name);
 
         #validation
         if(true)//!empty($this->$_name))
@@ -156,40 +154,60 @@ class Table extends DataMethods {
                 'hierarchical' => $this->_hierarchical);  */          
            
 
-        //if($isValid)
-//        {
-            $args = array(  'time' => current_time('mysql'), 
-                    'name' => 'authors1',
-                    'singular_name' => 'Lista de Autores',
-                    'add_new' =>  'Novo autor',
-                    'add_new_item' => 'Adicionar Nova Notícia',
-                    'edit_item' => 'Editar Notícia',
-                    'new_item' => 'Nova Notícia',
-                    'view_item' => 'Ver notícia',
-                    'search_items' => 'Buscar notícias',
-                    'not_found'=> 'Nenhuma notícia encontrada',
-                    'not_found_in_trash' => 'Nada encontrado na lixeira',
-                    'parent_item_colon' => '>>',
-                    'menu_name' => 'Not. Vaticano',
-                    'hierarchical'=> 1,
-                    'description'=>'Exibe notícias do Vaticano'     ,
-                    'supports'=> 'title,editor,excerpt,thumbnail,comments',     
-                    'taxonomies'=> '',  
-                    'public' => 1,
-                    'show_ui' => 1,
-                    'show_in_menu'=> 1);
-        
+            if($isValid)
+            {
+                /*$args = array(  'time' => current_time('mysql'), 
+                        'name' => 'authors1',
+                        'singular_name' => 'Lista de Autores',
+                        'add_new' =>  'Novo autor',
+                        'add_new_item' => 'Adicionar Nova Notícia',
+                        'edit_item' => 'Editar Notícia',
+                        'new_item' => 'Nova Notícia',
+                        'view_item' => 'Ver notícia',
+                        'search_items' => 'Buscar notícias',
+                        'not_found'=> 'Nenhuma notícia encontrada',
+                        'not_found_in_trash' => 'Nada encontrado na lixeira',
+                        'parent_item_colon' => '>>',
+                        'menu_name' => 'Not. Vaticano',
+                        'hierarchical'=> 1,
+                        'description'=>'Exibe notícias do Vaticano'     ,
+                        'supports'=> 'title,editor,excerpt,thumbnail,comments',     
+                        'taxonomies'=> '',  
+                        'public' => 1,
+                        'show_ui' => 1,
+                        'show_in_menu'=> 1);*/
+
+            $args =  array(
+                'time' => current_time('mysql'), 
+                'name' => $this->_name,
+                'singular_name' => $this->_singular_name,
+                'add_new'       => $this->_add_new,
+                'add_new_item'  => $this->_add_new_item,
+                'edit_item' => $this->_edit_item,
+                'new_item' => $this->_new_item,
+                'view_item' => $this->_view_item,
+                'search_items' => $this->_search_items,
+                'not_found' => $this->_not_found,
+                'not_found_in_trash' => $this->_not_found_in_trash,
+                'parent_item_colon' => $this->_parent_item_colon,
+                'menu_name' => $this->_menu_name,
+                'description' => $this->_description,
+                'taxonomies' => is_array($this->_taxonomies)? join(',', $this->_taxonomies): $this->_taxonomies,
+                'supports' => is_array($this->_supports)? join(',', $this->_supports): $this->_supports,
+                'public' => $this->_public,
+                'show_ui' => $this->_show_ui,
+                'show_in_menu' => $this->_show_in_menu,
+                'hierarchical' => $this->_hierarchical);  
             
-             global $wpdb;
+                
+                global $wpdb;               
 
-             $rows_affected = $wpdb->insert( $this->_table_name, $args);
+                $rows_affected = $wpdb->insert( 'wp_wcptfg_log', array('time'=> current_time('mysql'),
+                    'title' => 'nome tabela classe: '.$this->_table_name));
 
-           //$this->SaveTable($this->_table_name, $args);
-//        }
-
-} 
-
+                parent::Save(/*$this->_table_name*/ 'wcptfg_tables', $args, $wpdb);
+            } 
+        }   
     }
-   
-}
-?>
+
+} ?>

@@ -51,8 +51,8 @@ function wcptfg_install($blog_id=null) {
  	dbDelta( $sql );
 
 
-	# Create Fields Table options
 
+	# Create Fields Table options
 	$table_name = $wpdb->prefix . "wcptfg_fields";	      
    
 	$sql = "CREATE TABLE ".$table_name." (
@@ -62,9 +62,20 @@ function wcptfg_install($blog_id=null) {
 		  title text NOT NULL,		  
 		  mysqltype VARCHAR(55) DEFAULT 'VARCHAR(55)' NOT NULL,
 		  UNIQUE KEY id (id)
-		    );";
+		    );";	
 
-	
+    dbDelta( $sql );
+
+
+    # Create Log table
+    $table_name = $wpdb->prefix . "wcptfg_log";	      
+   
+	$sql = "CREATE TABLE ".$table_name." (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		  title text NOT NULL,	  
+		  UNIQUE KEY id (id)
+		    );";
 
     dbDelta( $sql );
 	
@@ -75,56 +86,33 @@ function wcptfg_install($blog_id=null) {
 
 function wcptfg_install_data() {
 
+
     # Create the Authors Table
-
-    $AuthorsLabel = array(
-		'singular_name' => 'Notícia do Vaticano',
-	  	'add_new' => 'Adicionar Nova',
-	  	'add_new_item' => 'Adicionar Nova Notícia',
-	  	'edit_item' => 'Editar Notícia',
-	  	'new_item' => 'Nova Notícia',
-	  	'view_item' => 'Ver notícia',
-		'search_items' => 'Buscar notícias',
-		'not_found'=> 'Nenhuma notícia encontrada',
-		'not_found_in_trash' => 'Nada encontrado na lixeira',
+    $sampleLabel = array(
+		'singular_name' => 'My Sample Table',
+	  	'add_new' => 'Add New Sample Item',
+	  	'add_new_item' => 'Add New Sample Item',
+	  	'edit_item' => 'Add New Sample Item',
+	  	'new_item' => 'New Item',
+	  	'view_item' => 'View Sample Item',
+		'search_items' => 'Search Sample Tables',
+		'not_found'=> 'Sample Table not found',
+		'not_found_in_trash' => 'Sample Table not found in trash',
 		'parent_item_colon' => '>>',
-		'menu_name' => 'Not. Vaticano');
+		'menu_name' => 'my Sample Table');
 
-    $AuthorsArgs = array(
+    $sampleArgs = array(
 		'hierarchical'=> 1,
-		'description'=>'Exibe notícias do Vaticano'		,
+		'description'=>'Show Sample Table items. This description ... '		,
 		'supports'=> array('title','editor','excerpt','thumbnail','comments'),		
-		'taxonomies'=> array('tgenero'),	
+		'taxonomies'=> array('tax_sample'),	
 		'public' => 1,
 		'show_ui' => 1,
-		'show_in_menu'=> 1);
-
-    /*$args = array(  'time' => current_time('mysql'), 
-                    'name' => 'authors',
-                    'singular_name' => 'Lista de Autores',
-                    'add_new' =>  'Novo autor',
-                    'add_new_item' => 'Adicionar Nova Notícia',
-                    'edit_item' => 'Editar Notícia',
-                    'new_item' => 'Nova Notícia',
-                    'view_item' => 'Ver notícia',
-                    'search_items' => 'Buscar notícias',
-                    'not_found'=> 'Nenhuma notícia encontrada',
-                    'not_found_in_trash' => 'Nada encontrado na lixeira',
-                    'parent_item_colon' => '>>',
-                    'menu_name' => 'Not. Vaticano',
-                    'hierarchical'=> 1,
-                    'description'=>'Exibe notícias do Vaticano'     ,
-                    'supports'=> 'title,editor,excerpt,thumbnail,comments',     
-                    'taxonomies'=> '',  
-                    'public' => 1,
-                    'show_ui' => 1,
-                    'show_in_menu'=> 1);*/
+		'show_in_menu'=> 1); 
 
 
-    $AuthorsTable = new Table('newsauthors2', $AuthorsLabel, $AuthorsArgs);
-
+    $AuthorsTable = new wcptfg_Table('mysampletable', $sampleLabel, $sampleArgs);
  	$AuthorsTable->Save();
-
 }
 
 
