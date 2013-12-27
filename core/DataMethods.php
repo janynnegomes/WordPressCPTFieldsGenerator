@@ -33,7 +33,9 @@ class DataMethods {
         $rows_affected = $wpdb->insert( 'wp_wcptfg_log', array('time'=> current_time('mysql'),
                     'title' => 'nome: '.$db_table_name));
 
-        $rows_affected = $wpdb->insert( $db_table_name, $args);                   
+        $rows_affected = $wpdb->insert( $db_table_name, $args);  
+
+        return $rows_affected;                 
     }
 
     function Delete($table)

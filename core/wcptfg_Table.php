@@ -205,9 +205,20 @@ class wcptfg_Table extends DataMethods {
                 $rows_affected = $wpdb->insert( 'wp_wcptfg_log', array('time'=> current_time('mysql'),
                     'title' => 'nome tabela classe: '.$this->_table_name));
 
-                parent::Save(/*$this->_table_name*/ 'wcptfg_tables', $args, $wpdb);
+                return parent::Save(/*$this->_table_name*/ 'wcptfg_tables', $args, $wpdb);
             } 
+        }
         }   
-    }
+    
 
-} ?>
+    public function GetList($args = array('id','name'))
+    {           
+        global $wpdb;  
+
+        $sql = 'SELECT '.join(', ',$args).' FROM wp_wcptfg_tables ';
+        
+        $result = $wpdb->get_results($sql) or die(mysql_error());
+
+        return $result;
+    } 
+}

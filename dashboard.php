@@ -53,13 +53,13 @@ function wcptfg_dashboard()
    <form method="post" action="options.php">
     <?php settings_fields( 'tables_register' ); ?>
     
-    <table class="wp-list-table widefat fixed pages">
+    <table class="wp-list-table widefat fixed pages wcptfg-table">
     <tr>
     <td>
       <div >
           <label for="wcptfg_table_name"><?php _e('+ Add new Table','wcptfg'); ?></label>
           <input type="text"  style="width:100px;" name="wcptfg_table_name" id="wcptfg_table_name"  value="<?php echo esc_attr(get_option('qtdeMinimaCaracteres')); ?>" />
-          <a style="width:100px;" name="btnCreateTable" id="btnCreateTable" href="#" class="wp-core-ui button-primary">Create</a>
+          <a style="width:100px;" disabled="true" name="btnCreateTable" id="btnCreateTable" href="#" class="wp-core-ui button-primary">Create</a>
         </div>
         <br/>
         <div id="divCreateTable" style="display:none;" >
@@ -106,53 +106,56 @@ function wcptfg_dashboard()
 
             <!-- Wordpress Singular Name-->
             <tr>
-              <td><label for="wcptfg_singular_name"><?php _e('Singular Name','wcptfg'); ?></label></td>
-              <td><input type="text"  name="wcptfg_singular_name" value="<?php echo esc_attr(get_option('wcptfg_singular_name')); ?>" /></td>
+              <td><label for="wcptfg_table_singular_name"><?php _e('Singular Name','wcptfg'); ?></label></td>
+              <td><input type="text"  id="wcptfg_table_singular_name"   name="wcptfg_table_singular_name" value="<?php echo esc_attr(get_option('wcptfg_singular_name')); ?>" /></td>
               <td class="wcptfg_table_atribute_subtitle">
               <p class="description"><?php _e('Name for one object of this post type. Defaults to value of name','wcptfg'); ?></p></td>
             </tr>
 
             <!-- Wordpress Add New -->
             <tr>
-              <td><label for="wcptfg_add_new"><?php _e('Add new','wcptfg'); ?></label></td>
-              <td><input type="text"   name="wcptfg_add_new" value="<?php echo esc_attr(get_option('wcptfg_add_new')); ?>" /></td>
+              <td><label for="wcptfg_table_add_new"><?php _e('Add new','wcptfg'); ?></label></td>
+              <td><input type="text"   id="wcptfg_table_add_new"  name="wcptfg_table_add_new" value="<?php echo esc_attr(get_option('wcptfg_add_new')); ?>" /></td>
               <td class="wcptfg_table_atribute_subtitle">
               <p class="description"><?php _e('The add new text','wcptfg'); ?></p></td>
+            </tr>
+
+            <!-- Wordpress Add New -->
+            <tr>
+              <td><label for="wcptfg_add_new_item"><?php _e('Add new item','wcptfg'); ?></label></td>
+              <td><input type="text"  id="wcptfg_table_add_new_item" name="wcptfg_table_add_new_item" value="<?php echo esc_attr(get_option('wcptfg_add_new_item')); ?>" /></td>
+              <td class="wcptfg_table_atribute_subtitle">
+              <p class="description"><?php _e('The add new item text','wcptfg'); ?></p></td>
             </tr>
 
             <!-- Wordpress Menu Name -->
             <tr>
               <td><label for="wcptfg_menu_name"><?php _e('Menu name','wcptfg'); ?></label></td>
-              <td><input type="text"   name="wcptfg_menu_name" value="<?php echo esc_attr(get_option('wcptfg_menu_name')); ?>" /></td>
+              <td><input type="text"   name="wcptfg_table_menu_name" id="wcptfg_table_menu_name" value="<?php echo esc_attr(get_option('wcptfg_menu_name')); ?>" /></td>
               <td class="wcptfg_table_atribute_subtitle">
               <p class="description"><?php _e('The menu name text','wcptfg'); ?></p></td>
             </tr>  
 
           </table>
 
-          <a type="submit" name="btnCreateTable" class="wp-core-ui button-primary" href="#">Save Field </a>
+          <a id="btnSaveTable" name="btnSaveTable" class="wp-core-ui button-primary" href="#">Save Field </a>
         </div>
         </td></tr>
     </table>
           
     <!-- Shows all tables created -->
-    <table class="wp-list-table widefat fixed pages">
+    <table class="wp-list-table widefat fixed pages wcptfg-table">
       <tr>
         <th><?php _e('My Tables','wcptfg'); ?></th>
         <th><?php _e('Table field','wcptfg'); ?></th>
         <th><?php _e('Actions','wcptfg'); ?></th>
       </tr>
-
-      <tr>
-      <td colspan="3"> 
-        
-
-
-      </td>
       
-      </tr> 
+      <?php $wcptfg_created_tables =  new wcptfg_Table('');
 
-     
+        $list =  $wcptfg_created_tables->GetList(); 
+
+        var_dump($list);?>     
 
       <tr>
       <td><span><a href="google.com">Table 1</a></span></td>
@@ -169,7 +172,7 @@ function wcptfg_dashboard()
                          
     </table>
 
-    <table class="wp-list-table widefat fixed pages">
+    <table class="wp-list-table widefat fixed pages wcptfg-table">
         <tr valign="top">
         <th scope="row"><?php _e('My Tables','wcptfg'); ?></th>
         <td>
