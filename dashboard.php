@@ -155,13 +155,21 @@ function wcptfg_dashboard()
 
         $list =  $wcptfg_created_tables->GetList(); 
 
-        var_dump($list);?>     
+        if(is_array($list))
+          { 
 
-      <tr>
-      <td><span><a href="google.com">Table 1</a></span></td>
-      <td><span><a href="#" id="AddFieldButton" name="AddFieldButton">+ Add Field</a></span></td>
-      <td>Delete</td>
-      </tr> 
+            foreach ($list as $wcptfg_table) {
+             ?>
+            <tr>
+              <td><span><a href="#"><?php echo $wcptfg_table->name; ?></a></span></td>
+              <td><span><a href="#" id="AddFieldButton" name="AddFieldButton">+ Add Field</a></span></td>
+              <td>Delete</td>
+            </tr> 
+          <?php 
+          }
+          }?>     
+
+     
 
       <tr>
       <td><span><a href="google.com">Table 2</a></span></td>
