@@ -10173,3 +10173,28 @@ a.widget-control-edit {
     overflow-y: scroll !important;
     overflow-x: hidden !important;
 }
+
+
+.wcptfg-table {
+	width: 100%;
+	background: rgb(252, 252, 252);
+	border: solid 1px rgb(224, 224, 224);
+	margin-bottom: 20px;
+}
+
+.wcptfg-table th,
+.wcptfg-table tbody tr th
+{
+	font-weight: bold;
+}
+
+.wcptfg-table-min
+{
+	width:20%;
+	min-width: 100px;
+}
+
+.bold
+{
+	font-weight: bold;
+}
