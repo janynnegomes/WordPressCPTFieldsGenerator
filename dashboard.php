@@ -136,9 +136,17 @@ function wcptfg_dashboard()
               <p class="description"><?php _e('The menu name text','wcptfg'); ?></p></td>
             </tr>  
 
+            <!-- Wordpress All items -->
+            <tr>
+              <td><label for="wcptfg_all_items"><?php _e('All items','wcptfg'); ?></label></td>
+              <td><input type="text"   name="wcptfg_table_all_items" id="wcptfg_table_all_items" value="<?php echo esc_attr(get_option('wcptfg_all_items')); ?>" /></td>
+              <td class="wcptfg_table_atribute_subtitle">
+              <p class="description"><?php _e('All items text','wcptfg'); ?></p></td>
+            </tr> 
+
           </table>
 
-          <a id="btnSaveTable" name="btnSaveTable" class="wp-core-ui button-primary" href="#">Save Field </a>
+          <a id="btnSaveTable" name="btnSaveTable" class="wp-core-ui button-primary" href="#">Save Table </a>
         </div>
         </td></tr>
     </table>
@@ -168,16 +176,6 @@ function wcptfg_dashboard()
           <?php 
           }
           }?>     
-
-     
-
-      <tr>
-      <td><span><a href="google.com">Table 2</a></span></td>
-      <td><span>Lorem ipsum</span></td>
-      <td>Delete</td>
-      </tr> 
-             
-                         
     </table>
 
     <table class="wp-list-table widefat fixed pages wcptfg-table">

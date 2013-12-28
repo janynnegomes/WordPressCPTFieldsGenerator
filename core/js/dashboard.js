@@ -1,6 +1,6 @@
 jQuery(function($)
 {
-    $.data(document.body, 'ajaxUrl', 'http://localhost/3ponto8/wp-admin/admin-ajax.php');
+    $.data(document.body, 'ajaxUrl', 'http://localhost/github/wp-admin/admin-ajax.php');
 
        $( "#btnSaveTable" ).click(function() {  
           

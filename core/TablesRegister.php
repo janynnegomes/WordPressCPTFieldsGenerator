@@ -1,9 +1,9 @@
 <?php
 
-add_action( 'init', 'wcptdg_register_tables_init' );
+add_action( 'init', 'wcptfg_register_tables_init' );
 
 
-function wcptdg_register_tables_init()
+function wcptfg_register_tables_init()
 {
     global $wpdb;
     global $wcptfg_installation;
@@ -32,18 +32,18 @@ function wcptdg_register_tables_init()
            $description = $table->description;
 
               $labels = array( 
-                'name' => __( $menu_name, 'wcptdg' ),
-                'singular_name' => __( $singular_name, 'wcptdg' ),
-                'add_new' => __( $add_new,  'wcptdg' ),
-                'add_new_item' => __( 'Adicionar Notícias do Regional  ',  'wcptdg' ),
-                'edit_item' => __( 'Editar Notícias  ', 'wcptdg' ),
-                'new_item' => __( 'Nova ', 'wcptdg' ),
-                'view_item' => __( 'Ver Notícias  ',  'wcptdg' ),
-                'search_items' => __( 'Pesquisar Notícias  ',  'wcptdg' ),
-                'not_found' => __( 'Notícias   não encontrados',  'wcptdg' ),
-                'not_found_in_trash' => __( 'Sem Notícias   na lixeira',  'wcptdg' ),
-                'parent_item_colon' => __( 'Parent Notícias  :', 'wcptdg' ),
-                'menu_name' => __( $menu_name, 'wcptdg' ),
+                'name' => __( $menu_name, 'wcptfg' ),
+                'singular_name' => __( $singular_name, 'wcptfg' ),
+                'add_new' => __( $add_new,  'wcptfg' ),
+                'add_new_item' => __( 'Adicionar Notícias do Regional  ',  'wcptfg' ),
+                'edit_item' => __( 'Editar Notícias  ', 'wcptfg' ),
+                'new_item' => __( 'Nova ', 'wcptfg' ),
+                'view_item' => __( 'Ver Notícias  ',  'wcptfg' ),
+                'search_items' => __( 'Pesquisar Notícias  ',  'wcptfg' ),
+                'not_found' => __( 'Notícias   não encontrados',  'wcptfg' ),
+                'not_found_in_trash' => __( 'Sem Notícias   na lixeira',  'wcptfg' ),
+                'parent_item_colon' => __( 'Parent Notícias  :', 'wcptfg' ),
+                'menu_name' => __( $menu_name, 'wcptfg' ),
             );
 
             $supports = $table->supports;
@@ -77,7 +77,7 @@ function wcptdg_register_tables_init()
                             'taxonomies' => $taxonomies,
                             'public' => true,
                             'show_ui' => true,
-                            'show_in_menu' => 'parresia/noticias.php',
+                            'show_in_menu' => 'edit.php',
                             'menu_position' => 5,
                             
                             'show_in_nav_menus' => true,
@@ -97,14 +97,10 @@ function wcptdg_register_tables_init()
         $table_name = $wpdb->prefix . "wcptfg_metaboxes";
 
         #read the fields from database
-        $metaboxes = $wpdb->get_results( "SELECT   name, 
-                                                singular_name,
-                                                add_new,
-                                                add_new_item,
-                                                menu_name,
-                                                description,
-                                                supports 
-                                        FROM $table_name" );
+        $metaboxes = $wpdb->get_results( " SELECT   title,
+                                                    name,                
+                                                    post_type                
+                                           FROM $table_name" );
 
 
         if($metaboxes)
@@ -112,10 +108,7 @@ function wcptdg_register_tables_init()
             foreach ($metaboxes as $metabox) {
                
                $name = $metabox->name;
-               $singular_name = $metabox->singular_name;
-               $add_new = $metabox->add_new;
-               $menu_name = $metabox->menu_name;
-               $description = $metabox->description;
+               $title = $metabox->title;
 
                add_action( 'add_meta_boxes', 
                 'wcptfg_add_'.$name.'metabox' );

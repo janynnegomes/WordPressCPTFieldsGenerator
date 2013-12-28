@@ -18,6 +18,7 @@ require_once dirname( __FILE__ ) . '/core/Field.php';
 require_once dirname( __FILE__ ) . '/core/DataMethods.php';
 require_once dirname( __FILE__ ) . '/core/wcptfg_ajax.php';
 require_once dirname( __FILE__ ) . '/core/wcptfg_Table.php';
+require_once dirname( __FILE__ ) . '/core/wcptfg_Metaboxes.php';
 
 register_activation_hook( __FILE__, 'wcptfg_install' );
 register_activation_hook( __FILE__, 'wcptfg_install_data' );

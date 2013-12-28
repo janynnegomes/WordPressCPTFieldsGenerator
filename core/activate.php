@@ -67,6 +67,23 @@ function wcptfg_install($blog_id=null) {
     dbDelta( $sql );
 
 
+
+    # Create Fields Table options
+	$table_name = $wpdb->prefix . "wcptfg_metaboxes";	      
+   
+	$sql = "CREATE TABLE ".$table_name." (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		  title tinytext NOT NULL,
+		  name tinytext NOT NULL,
+		  post_type text NOT NULL,		  
+		  UNIQUE KEY id (id)
+		    );";	
+
+    dbDelta( $sql );
+
+
+
     # Create Log table
     $table_name = $wpdb->prefix . "wcptfg_log";	      
    
@@ -113,6 +130,9 @@ function wcptfg_install_data() {
 
     $AuthorsTable = new wcptfg_Table('mysampletable', $sampleLabel, $sampleArgs);
  	$AuthorsTable->Save();
+
+ 	$metaboxes = new wcptfg_Metaboxes('sample', 'Sample Fields', array('mysampletable'));
+ 	$metaboxes->Save();
 }
 
 
