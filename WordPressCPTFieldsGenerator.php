@@ -36,7 +36,9 @@ add_action( 'admin_enqueue_scripts', 'wcptfg_scripts' );
  function wcptfg_style() {
        
        wp_register_style( 'wcptfg_style', plugins_url('/core/wp-admin.css', __FILE__) );
+       wp_register_style( 'wcptfg_style_bootstrap', plugins_url('/core/bootstrap.min.css', __FILE__) );
 
        wp_enqueue_style( 'wcptfg_style' );
+       wp_enqueue_style( 'wcptfg_style_bootstrap' );
   } 
   ?>

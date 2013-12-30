@@ -8,11 +8,19 @@ add_action('wp_head', 'wcptfg_embed_style');
 
 
 function wcptfg_menu() {
+  
+  add_management_page(  __('Fields','wcptfg'),
+                        __('WCTP Fields Generator','wcptfg'), 
+                        'manage_options', 
+                        'wcptfg_dashboard_page',
+                        'wcptfg_dashboard' );
+
+  /*
   $wcptfg_hook_page = add_options_page( __('Fields','wcptfg'), 
                     __('WCTP Fields Generator','wcptfg'), 
                     __('manage_options','wcptfg'), 
                     'WordPressCPTFieldsGenerator.php', 
-                    'wcptfg_dashboard');
+                    'wcptfg_dashboard');*/
 
   //add_action('load-'.$wcptfg_hook_page,'wcptfg_saving_options');
   add_action('update_option','wcptfg_saving_options');
@@ -56,20 +64,40 @@ function wcptfg_dashboard()
     <table class="wp-list-table widefat fixed pages wcptfg-table">
     <tr>
     <td>
-      <div >
-          <label for="wcptfg_table_name"><?php _e('+ Add new Table','wcptfg'); ?></label>
-          <input type="text"  style="width:100px;" name="wcptfg_table_name" id="wcptfg_table_name"  value="<?php echo esc_attr(get_option('qtdeMinimaCaracteres')); ?>" />
-          <a style="width:100px;" disabled="true" name="btnCreateTable" id="btnCreateTable" href="#" class="wp-core-ui button-primary">Create</a>
-        </div>
+      <div class="row">  
+          <div class="col-lg-6">
+            <label for="wcptfg_table_name"><?php _e('+ Add new Table','wcptfg'); ?></label><div class="input-group">
+              
+              <input type="text"  class="form-control" name="wcptfg_table_name" id="wcptfg_table_name"  value="<?php echo esc_attr(get_option('qtdeMinimaCaracteres')); ?>" />
+              <span class="input-group-btn">
+                <button class="btn btn-default"  name="btnCreateTable" id="btnCreateTable" type="button">Create</button>
+              </span>
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+      </div><!-- /.row -->
+
         <br/>
         <div id="divCreateTable" style="display:none;" >
-          <table class="wcptfg-table">
-            <tr>
-              <th class="wcptfg-table-min"><?php _e('Table Atributes','wcptfg'); ?></th>
-              <th class="wcptfg-table-min"><?php _e('Atributes Value','wcptfg'); ?></th>
-              <th ></th>
-            </tr>
 
+        <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading"><?php _e('+ Adding new Table','wcptfg'); ?></div>
+              <div class="panel-body">
+                <p><?php _e('This adds a new Wordpress structure to your relational table.','wcptfg'); ?></p>
+              </div>
+
+              <!-- Table -->
+              <table class="table">
+
+                <thead>                
+                  <tr>
+                    <th>#</th>
+                    <th><?php _e('Table Atributes','wcptfg'); ?></th>
+                    <th><?php _e('Atributes Value','wcptfg'); ?></th>                   
+                  </tr>
+                </thead>
+
+                <tbody>
             <?php
               /*
 
@@ -136,11 +164,23 @@ function wcptfg_dashboard()
               <p class="description"><?php _e('The menu name text','wcptfg'); ?></p></td>
             </tr>  
 
+            <tr>
+              <td colspan="3">
+                  <div class="btn-group">
+                    <button type="button" id="btnCancelSaveTable" name="btnCancelSaveTable" class="btn btn-default btn-danger">Cancel</button>
+                    <button type="button" id="btnSaveTable" name="btnSaveTable" class="btn btn-default btn-success">Save</button>                    
+                  </div> 
+              </td>
+            </tr>  
+
+            
+
           </table>
 
-          <a id="btnSaveTable" name="btnSaveTable" class="wp-core-ui button-primary" href="#">Save Field </a>
+          </div>
         </div>
         </td></tr>
+        </tbody>
     </table>
           
     <!-- Shows all tables created -->
