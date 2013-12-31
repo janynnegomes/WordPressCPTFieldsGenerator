@@ -2,7 +2,8 @@ jQuery(function($)
 {
     $.data(document.body, 'ajaxUrl', 'http://localhost/github/wp-admin/admin-ajax.php');
 
-       $( "#btnSaveTable" ).click(function() {  
+      
+      $( "#btnSaveTable" ).click(function() {  
           
           // Getting values from page
           var wcptfg_table_name = $( "#wcptfg_table_name" ).val();
@@ -41,7 +42,8 @@ jQuery(function($)
 
           if(wcptfg_table_name.trim().length > 0 )
           {
-            $( "#btnCreateTable" ).attr( "disabled", false );    
+            $( "#btnCreateTable" ).attr( "disabled", false );  
+            $( "#btnCreateTable" ).addClass('btn-success');  
 
             $( "#btnCreateTable" ).click(function() {        
               $('#wcptfg_name_label').html( $( "#wcptfg_table_name" ).val());
@@ -53,7 +55,8 @@ jQuery(function($)
           {
             $('#divCreateTable').fadeOut(500);
 
-            $( "#btnCreateTable" ).attr( "disabled", true );          
+            $( "#btnCreateTable" ).attr( "disabled", true );  
+            $( "#btnCreateTable" ).removeClass('btn-success');                
 
             $("#btnCreateTable").click(function(e){
                     e.preventDefault();

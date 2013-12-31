@@ -14,11 +14,12 @@ require_once dirname( __FILE__ ) . '/dashboard.php';
 require_once dirname( __FILE__ ) . '/core/activate.php';
 require_once dirname( __FILE__ ) . '/core/TablesRegister.php';
 require_once dirname( __FILE__ ) . '/core/FieldsList.php';
-require_once dirname( __FILE__ ) . '/core/Field.php';
+
 require_once dirname( __FILE__ ) . '/core/DataMethods.php';
 require_once dirname( __FILE__ ) . '/core/wcptfg_ajax.php';
 require_once dirname( __FILE__ ) . '/core/wcptfg_Table.php';
 require_once dirname( __FILE__ ) . '/core/wcptfg_Metaboxes.php';
+require_once dirname( __FILE__ ) . '/core/wcptfg_field.php';
 
 register_activation_hook( __FILE__, 'wcptfg_install' );
 register_activation_hook( __FILE__, 'wcptfg_install_data' );
@@ -27,6 +28,7 @@ function wcptfg_scripts($hook) {
     if( 'edit.php' == $hook )
         return;
     wp_enqueue_script( 'wcptfg_scripts', plugin_dir_url( __FILE__ ) . 'core/js/dashboard.js' );
+    wp_enqueue_script( 'wcptfg_scripts_bootstrap', plugin_dir_url( __FILE__ ) . 'core/js/bootstrap.js' );
 }
 
 add_action( 'admin_enqueue_scripts', 'wcptfg_scripts' );
@@ -37,7 +39,9 @@ add_action( 'admin_enqueue_scripts', 'wcptfg_scripts' );
  function wcptfg_style() {
        
        wp_register_style( 'wcptfg_style', plugins_url('/core/wp-admin.css', __FILE__) );
+       wp_register_style( 'wcptfg_style_bootstrap', plugins_url('/core/bootstrap.min.css', __FILE__) );
 
        wp_enqueue_style( 'wcptfg_style' );
+       wp_enqueue_style( 'wcptfg_style_bootstrap' );
   } 
   ?>

@@ -25,6 +25,8 @@ function wcptfg_register_tables_init()
     {
         foreach ($tables as $table) {
            
+           
+
            $name = $table->name;
            $singular_name = $table->singular_name;
            $add_new = $table->add_new;
@@ -106,15 +108,19 @@ function wcptfg_register_tables_init()
         if($metaboxes)
         {
             foreach ($metaboxes as $metabox) {
-               
-               $name = $metabox->name;
-               $title = $metabox->title;
+                
+                global $metabox_name;
+                global $metabox_title;
+                global $post_type_name;
 
-               add_action( 'add_meta_boxes', 
-                'wcptfg_add_'.$name.'metabox' );
+                $metabox_name = $metabox->name;
+                $metabox_title = $metabox->title;
+                $post_type_name = $name;
 
 
-           }
+                add_action('admin_init', 'wcptfg_add_meta_box', 10, 2);
+
+           } # Close metabox loop
        }
 
 
@@ -125,33 +131,50 @@ function wcptfg_register_tables_init()
 } 
 
 
+function wcptfg_add_meta_box ($param1)
+{
+    global $metabox_name;
+    global $metabox_title;
+    global $post_type_name;
 
-function datas_evento_add_meta_box() {
+    //var_dump($post_type_name);
+    //var_dump($param1);
 
-  add_meta_box(
-    'datas_evento_metaboxid',
-    'Datas do Evento',
-    'datas_evento_inner_meta_box',
-    'eventodadiocese',
-    'side'
-  );
-  }
-  
-function datas_evento_inner_meta_box( $eventodadiocese ) {
+    add_meta_box(
+                    'wcptfg_metabox_'.$metabox_name,
+                    $metabox_title,
+                    'wcptfg_inner_meta_box',
+                    $post_type_name,
+                    'side',
+                    'high',
+                    array('post_type'=>$post_type_name)
+                  ); 
 
-?>
+}
+
+function wcptfg_inner_meta_box( $eventodadiocese, $args ) {
+
+//var_dump($args['args']['post_type']); 
+
+  //  echo $args->args['post_type'];
+
+$fieldsList = new wcptfg_field();
+
+$lista = $fieldsList->GetList();
+
+//var_dump($lista);
+
+
+foreach ($lista as $campo) { ?>
+
 <p>
-<label  for="data_inicio_eventodadiocese">Data de Início do Evento:</label>
+<label  for="data_inicio_eventodadiocese"><?php echo $campo->title; ?></label>
 <br />
 <input  type="datetime-local" name="data_inicio_eventodadiocese" value="<?php echo get_post_meta( $eventodadiocese->ID, '_data_inicio_eventodadiocese', true ); ?>" />
 </p>
-<p>
-<label  for="data_final_eventodadiocese">Data Final do Evento:</label>
-<br />
-<input  type="datetime-local" name="data_final_eventodadiocese" value="<?php echo get_post_meta( $eventodadiocese->ID, '_data_final_eventodadiocese', true ); ?>" />
-</p>
-<?php 
-}
 
 
-?>
+<?php }
+
+
+}  ?>
