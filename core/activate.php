@@ -60,6 +60,7 @@ function wcptfg_install($blog_id=null) {
 		  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 		  name tinytext NOT NULL,
 		  title text NOT NULL,		  
+		  post_type text NOT NULL,		  
 		  mysqltype VARCHAR(55) DEFAULT 'VARCHAR(55)' NOT NULL,
 		  UNIQUE KEY id (id)
 		    );";	
@@ -133,6 +134,11 @@ function wcptfg_install_data() {
 
  	$metaboxes = new wcptfg_Metaboxes('sample', 'Sample Fields', array('mysampletable'));
  	$metaboxes->Save();
+
+ 	$samplefield = new wcptfg_field('Exemplo', 'Titulo exemplo', 'algum subtitulo', 'char(10)', 'mysampletable' , false);
+
+ 	$samplefield->AddToList();
+ 	$samplefield->Save();
 }
 
 

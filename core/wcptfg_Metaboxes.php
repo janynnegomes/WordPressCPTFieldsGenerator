@@ -8,7 +8,7 @@ class wcptfg_Metaboxes extends DataMethods {
     private $_post_type = '';
     private $_title = '';
 
-    function __construct( $name = '', $title= 'News Authors', $post_type = array()) 
+    function __construct( $name = '', $title = '', $post_type = array()) 
     {
         
         global $wpdb;
@@ -17,6 +17,7 @@ class wcptfg_Metaboxes extends DataMethods {
 
         $this->_title = $title;
         $this->_name = $name;
+        $this->_post_type = $post_type;
         
        }
 
@@ -35,6 +36,7 @@ class wcptfg_Metaboxes extends DataMethods {
             
             if($isValid)
             {
+
                 $args =  array(
                     'time' => current_time('mysql'), 
                     'name' => $this->_name,
@@ -45,21 +47,25 @@ class wcptfg_Metaboxes extends DataMethods {
                 global $wpdb;               
 
                 $rows_affected = $wpdb->insert( 'wp_wcptfg_log', array('time'=> current_time('mysql'),
-                    'title' => 'nome tabela classe: '.$this->_table_name));
+                    'title' => 'valores: '.join(',', $args)));
 
-                return parent::Save(/*$this->_table_name*/ 'wcptfg_tables', $args, $wpdb);
+                return parent::Save(/*$this->_table_name*/ 'wcptfg_metaboxes', $args, $wpdb);
             } 
         }
         }   
     
 
-    public function GetList($args = array('id','name'))
+    public function GetList($args = array('id','name'), $post_type)
     {           
         global $wpdb;  
 
-        $sql = 'SELECT '.join(', ',$args).' FROM wp_wcptfg_tables ';
-        
-        $result = $wpdb->get_results($sql) or die(mysql_error());
+        $result = $wpdb->get_results( " SELECT   id,
+                                                    time,
+                                                    title,
+                                                    name,                
+                                                    post_type                
+                                           FROM wp_wcptfg_metaboxes 
+                                            WHERE post_type like '%".$post_type."%' " );
 
         return $result;
     } 

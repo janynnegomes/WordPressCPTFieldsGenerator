@@ -93,65 +93,108 @@ function wcptfg_register_tables_init()
         # Register table as Post Type
         register_post_type( $name, $args);
 
-        # Look for metaboxes
+        # Search for metaboxes on plugin database
         $table_name = $wpdb->prefix . "wcptfg_metaboxes";
 
-        #read the fields from database
-        $metaboxes = $wpdb->get_results( " SELECT   title,
-                                                    name,                
-                                                    post_type                
-                                           FROM $table_name" );
+        #Creates a new instance for metaboxes structures
+        $metaboxes = new wcptfg_metaboxes($name);
 
+        # Get the metabox saved on databse
+        $mblist = $metaboxes->GetList(array('id', 'name'),$name);
 
-        if($metaboxes)
+        # Make sure that there was someting returned by the function
+        if($mblist) 
         {
-            foreach ($metaboxes as $metabox) {
+            //var_dump($mblist);
+            foreach ($mblist as $metabox) {
                
-               $name = $metabox->name;
-               $title = $metabox->title;
+                # Plugin vars declaration for metabox
+                global $metabox_post_type;
+                global $metabox_name;
+                global $metabox_title;
+                global $metabox_position;
+                
+                
+                # Setting values to vars                
+                $metabox_name = $metabox->name;
+                $metabox_post_type = $metabox->post_type;
+                $metabox_title = $metabox->title;
+                $metabox_position = 'side';
 
-               add_action( 'add_meta_boxes', 
-                'wcptfg_add_'.$name.'metabox' );
 
+                # After add_metabox function created, it`s time to hook on WordPress
+                add_action( 'add_meta_boxes', 'wctpfg_add_meta_box', 10, 2);
 
+                
+                var_dump($metabox_post_type);
            }
+
        }
 
+    } # Close table loop
 
-        } # Close table loop
-
-    } # Close verification
+} # Close verification
 
 } 
 
 
+function wctpfg_add_meta_box($post_id, $post) {
+                  
+                  # Plugin variables
+                  global $metabox_post_type;  
+                  global $metabox_name;
+                  global $metabox_title;
+                  global $metabox_position;
 
-function datas_evento_add_meta_box() {
+                  # WordPress variables
+                  global $post;  
+                  global $wpdb;
 
-  add_meta_box(
-    'datas_evento_metaboxid',
-    'Datas do Evento',
-    'datas_evento_inner_meta_box',
-    'eventodadiocese',
-    'side'
-  );
-  }
-  
-function datas_evento_inner_meta_box( $eventodadiocese ) {
 
-?>
-<p>
-<label  for="data_inicio_eventodadiocese">Data de Início do Evento:</label>
-<br />
-<input  type="datetime-local" name="data_inicio_eventodadiocese" value="<?php echo get_post_meta( $eventodadiocese->ID, '_data_inicio_eventodadiocese', true ); ?>" />
-</p>
-<p>
-<label  for="data_final_eventodadiocese">Data Final do Evento:</label>
-<br />
-<input  type="datetime-local" name="data_final_eventodadiocese" value="<?php echo get_post_meta( $eventodadiocese->ID, '_data_final_eventodadiocese', true ); ?>" />
-</p>
-<?php 
-}
+                  if(isset($metabox_post_type)){
+                            add_meta_box(
+                            $metabox_name.'_'.$metabox_post_type.'_metaboxid',
+                            $metabox_title,
+                            'wcptfg_inner_meta_box',
+                            $metabox_post_type ,
+                            $metabox_position,
+                            'core',
+                            array($metabox_post_type )
+                          );
+                    }
+                
+                }
+                  
+                function wcptfg_inner_meta_box( $post, $args ) {
+
+                //var_dump($post);
+                //var_dump($args);
+
+
+                global $wpdb;  
+
+                $result = $wpdb->get_results( " SELECT   id,
+                                                  time,
+                                                  title,
+                                                  name,                
+                                                  mysqltype,
+                                                  post_type                
+                                         FROM wp_wcptfg_fields 
+                                         WHERE post_type like '%".$post->post_type."%' " );
+
+                //var_dump($result);
+                # Search fields for this post_type
+
+                foreach ($result as $value) {?>
+                    <p>
+                    <label  for="wcptfg_<?php echo $value->name;?>"><?php echo $value->title;?></label>
+                    <br />
+                    <input  type="text" name="wcptfg_<?php echo $value->name;?>" value="<?php echo get_post_meta( $post->ID, 'wcptfg_'.$value->name , true ); ?>" />
+                    </p>                   
+                   <?php
+                }
+
+                }
 
 
 ?>

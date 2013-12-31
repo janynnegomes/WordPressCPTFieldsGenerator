@@ -14,11 +14,12 @@ require_once dirname( __FILE__ ) . '/dashboard.php';
 require_once dirname( __FILE__ ) . '/core/activate.php';
 require_once dirname( __FILE__ ) . '/core/TablesRegister.php';
 require_once dirname( __FILE__ ) . '/core/FieldsList.php';
-require_once dirname( __FILE__ ) . '/core/Field.php';
+
 require_once dirname( __FILE__ ) . '/core/DataMethods.php';
 require_once dirname( __FILE__ ) . '/core/wcptfg_ajax.php';
 require_once dirname( __FILE__ ) . '/core/wcptfg_Table.php';
 require_once dirname( __FILE__ ) . '/core/wcptfg_Metaboxes.php';
+require_once dirname( __FILE__ ) . '/core/wcptfg_field.php';
 
 register_activation_hook( __FILE__, 'wcptfg_install' );
 register_activation_hook( __FILE__, 'wcptfg_install_data' );
