@@ -35,7 +35,7 @@ class DataMethods {
 
         $rows_affected = $wpdb->insert( $db_table_name, $args);  
 
-        return $rows_affected;                 
+        return $wpdb->insert_id;                 
     }
 
     function Delete($table)

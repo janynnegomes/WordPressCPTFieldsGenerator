@@ -7,24 +7,24 @@
     private $_subtitle = '';
     private $_mysqltype =  '';
     private $_nedded_validation =  '';
-    private $_post_type =  '';
+    private $_metabox_id =  '';
 
     private $_fieldlist;
     private $_newfieldlist;
 
 
    #constructors
-   function __construct($title = '', $name ='', $subtitle ='', $mysqltype='', $post_type='' , $nedded_validation = false) {
+   function __construct($title = '', $name ='', $subtitle ='', $mysqltype='', $metabox_id='' , $nedded_validation = false) {
       $this->_title = $title;
       $this->_name = $name;
       $this->_subtitle = $subtitle;
       $this->_mysqltype = $mysqltype;
       $this->_nedded_validation = $nedded_validation;
       $this->_nedded_validation = $nedded_validation;
-      $this->_post_type = $post_type;
+      $this->_metabox_id = $metabox_id;
 
      
-      $this->_fieldlist = $this->GetList($post_type);
+      $this->_fieldlist = $this->GetList($metabox_id);
    }
 
   function Title()
@@ -47,24 +47,7 @@
      return $_mysqltype;
    }
 
-   function AddToList()
-   {
-      if ($this->_newfieldlist == null)
-      {
-        $this->_newfieldlist = array();
-      }
-
-      
-      array_push($this->_newfieldlist, 
-        array('title' =>  $this->_title,
-        'name'=> $this->_name,
-        'post_type'=> $this->_post_type));
-
-      var_dump($this->_newfieldlist);
-   }
-
-
-   function GetList($post_type = '')
+   function GetList($metabox_id = '')
    {
       global $wpdb;  
 
@@ -73,28 +56,42 @@
                                                   title,
                                                   name,                
                                                   mysqltype,
-                                                  post_type                
+                                                  metabox_id                
                                          FROM wp_wcptfg_fields 
-                                         WHERE post_type like '%".$post_type."%' " );
+                                         WHERE metabox_id =".$metabox_id );
 
       return $result;
    }
 
    public function Save()
    {
-      if ($this->_newfieldlist == null)
-      {
-        $this->_newfieldlist = array();
-      }
-
-
       global $wpdb;
+      
+      $isValid = false;
+        
+      #validation
+      if(true)//!empty($this->$_name))
+        {
+            $isValid = true;
 
-      $rows_affected = $wpdb->insert( 'wp_wcptfg_log', array('time'=> current_time('mysql'),
-                    'title' => 'campo: '.join(',',$this->_newfieldlist)));
+            
+            if($isValid)
+            {
+                $args =  array(
+                    'time' => current_time('mysql'), 
+                    'name' => $this->_name,
+                    'title' => $this->_title,
+                    'mysqltype'  => join(',',$this->_mysqltype),
+                    'metabox_id' => $this->_metabox_id);  
+               
+                global $wpdb;               
 
+                /* $rows_affected = $wpdb->insert( 'wp_wcptfg_log', array('time'=> current_time('mysql'),
+                    'title' => 'valores: '.join(',', $args)));*/
 
-      return parent::Save('wcptfg_fields', $this->_newfieldlist, $wpdb);
-   }
+                return parent::Save('wcptfg_fields', $args, $wpdb);
+            } 
+        }
+     }
  }
 ?>

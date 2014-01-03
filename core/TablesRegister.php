@@ -93,108 +93,117 @@ function wcptfg_register_tables_init()
         # Register table as Post Type
         register_post_type( $name, $args);
 
+    } # Close table loop
+
+ } # Close verification
+
+ add_action( 'add_meta_boxes', 'wctpfg_add_meta_box', 10, 2);
+
+} 
+
+
+function wctpfg_add_meta_box($post_id, $post) {
+
+    global $wpdb;
+    global $wcptfg_installation;
+
+    /*
+    $table_name = $wpdb->prefix . "wcptfg_tables";
+
+    #read the fields from database
+    $tables = $wpdb->get_results( "SELECT   name, 
+                                            singular_name,
+                                            add_new,
+                                            add_new_item,
+                                            menu_name,
+                                            description,
+                                            supports 
+                                    FROM $table_name" ); */
+
+
+    /* if($tables)
+    {
+        foreach ($tables as $table) {
+           
+        $name = $table->name;
+        
+        */  
         # Search for metaboxes on plugin database
         $table_name = $wpdb->prefix . "wcptfg_metaboxes";
 
         #Creates a new instance for metaboxes structures
-        $metaboxes = new wcptfg_metaboxes($name);
+        $metaboxes = new wcptfg_metaboxes($post->post_type);
 
         # Get the metabox saved on databse
-        $mblist = $metaboxes->GetList(array('id', 'name'),$name);
+        $mblist = $metaboxes->GetList(array('id', 'name'),$post->post_type);
 
         # Make sure that there was someting returned by the function
         if($mblist) 
         {
             //var_dump($mblist);
             foreach ($mblist as $metabox) {
-               
-                # Plugin vars declaration for metabox
-                global $metabox_post_type;
-                global $metabox_name;
-                global $metabox_title;
-                global $metabox_position;
-                
-                
+                                  
+
                 # Setting values to vars                
                 $metabox_name = $metabox->name;
                 $metabox_post_type = $metabox->post_type;
                 $metabox_title = $metabox->title;
                 $metabox_position = 'side';
 
+                $metabox_id = $metabox_name.'_'.$metabox_post_type.'_metaboxid';
 
-                # After add_metabox function created, it`s time to hook on WordPress
-                add_action( 'add_meta_boxes', 'wctpfg_add_meta_box', 10, 2);
-
-                
-                var_dump($metabox_post_type);
+                if(isset($metabox_post_type)){
+                add_meta_box(
+                $metabox_id,
+                $metabox_title,
+                'wcptfg_inner_meta_box',
+                $metabox_post_type ,
+                $metabox_position,
+                'high',
+                array('metabox_id'=>$metabox->id)
+                );
+                }
+               
            }
 
        }
 
-    } # Close table loop
+    /* } # Close table loop
 
 } # Close verification
 
-} 
+*/
+    }
+      
+    function wcptfg_inner_meta_box( $post, $args ) {
+
+    $metabox_id = $args['args']['metabox_id'];
+
+    if(!empty($metabox_id))
+    {
+
+       global $wpdb;  
+
+        $result = $wpdb->get_results( 
+                "SELECT F.`metabox_id` , 
+                        F.`name` , 
+                        F.`title` , 
+                        F.`mysqltype` , 
+                        M.`name` AS metabox_name, 
+                        M.`post_type` 
+                FROM    `wp_wcptfg_fields` AS F,  
+                        `wp_wcptfg_metaboxes` AS M
+                WHERE F.`metabox_id` = M.`ID` and F.`metabox_id` = ".$metabox_id);
 
 
-function wctpfg_add_meta_box($post_id, $post) {
-                  
-                  # Plugin variables
-                  global $metabox_post_type;  
-                  global $metabox_name;
-                  global $metabox_title;
-                  global $metabox_position;
-
-                  # WordPress variables
-                  global $post;  
-                  global $wpdb;
-
-
-                  if(isset($metabox_post_type)){
-                            add_meta_box(
-                            $metabox_name.'_'.$metabox_post_type.'_metaboxid',
-                            $metabox_title,
-                            'wcptfg_inner_meta_box',
-                            $metabox_post_type ,
-                            $metabox_position,
-                            'core',
-                            array($metabox_post_type )
-                          );
-                    }
-                
-                }
-                  
-                function wcptfg_inner_meta_box( $post, $args ) {
-
-                //var_dump($post);
-                //var_dump($args);
-
-
-                global $wpdb;  
-
-                $result = $wpdb->get_results( " SELECT   id,
-                                                  time,
-                                                  title,
-                                                  name,                
-                                                  mysqltype,
-                                                  post_type                
-                                         FROM wp_wcptfg_fields 
-                                         WHERE post_type like '%".$post->post_type."%' " );
-
-                //var_dump($result);
-                # Search fields for this post_type
-
-                foreach ($result as $value) {?>
-                    <p>
+            foreach ($result as $value)
+            {?>
+                <p>
                     <label  for="wcptfg_<?php echo $value->name;?>"><?php echo $value->title;?></label>
                     <br />
                     <input  type="text" name="wcptfg_<?php echo $value->name;?>" value="<?php echo get_post_meta( $post->ID, 'wcptfg_'.$value->name , true ); ?>" />
-                    </p>                   
-                   <?php
-                }
+                </p>                   
+           <?php }
+        }    
 
-                }
-
-
-?>
+} ?>

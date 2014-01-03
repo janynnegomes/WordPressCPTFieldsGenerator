@@ -8,36 +8,19 @@ add_action('wp_head', 'wcptfg_embed_style');
 
 
 function wcptfg_menu() {
-  $wcptfg_hook_page = add_options_page( __('Fields','wcptfg'), 
-                    __('WCTP Fields Generator','wcptfg'), 
-                    __('manage_options','wcptfg'), 
-                    'WordPressCPTFieldsGenerator.php', 
-                    'wcptfg_dashboard');
+   
+   add_management_page(  __('Fields','wcptfg'),
+                        __('WCTP Fields Generator','wcptfg'), 
+                        'manage_options', 
+                        'wcptfg_dashboard_page',
+                        'wcptfg_dashboard' );
 
-  //add_action('load-'.$wcptfg_hook_page,'wcptfg_saving_options');
-  add_action('update_option','wcptfg_saving_options');
+  
 }
 
 function wcptfg_register_settings() 
 { 
   register_setting( 'tables_register', 'tables' );
-}
-
-function wcptfg_saving_options()
-{
-  /*if(isset($_POST['action']) && $_POST['action'] == 'update' 
-      && 
-      isset($_POST['option_page']) && $_POST['option_page'] == 'tables_register')*/
-   //{
-      
-      ?>
-      <script>
-
-        console.log(<?php echo '1.'.$_POST['option_page']; ?>);
-        console.log(<?php echo '2.'.$_POST['tables_register']; ?>);
-      </script>
-      <?php
-   //}
 }
 
 
@@ -56,20 +39,44 @@ function wcptfg_dashboard()
     <table class="wp-list-table widefat fixed pages wcptfg-table">
     <tr>
     <td>
-      <div >
-          <label for="wcptfg_table_name"><?php _e('+ Add new Table','wcptfg'); ?></label>
-          <input type="text"  style="width:100px;" name="wcptfg_table_name" id="wcptfg_table_name"  value="<?php echo esc_attr(get_option('qtdeMinimaCaracteres')); ?>" />
-          <a style="width:100px;" disabled="true" name="btnCreateTable" id="btnCreateTable" href="#" class="wp-core-ui button-primary">Create</a>
-        </div>
-        <br/>
-        <div id="divCreateTable" style="display:none;" >
-          <table class="wcptfg-table">
-            <tr>
-              <th class="wcptfg-table-min"><?php _e('Table Atributes','wcptfg'); ?></th>
-              <th class="wcptfg-table-min"><?php _e('Atributes Value','wcptfg'); ?></th>
-              <th ></th>
-            </tr>
+      
+      <div class="row">  
+          <div class="col-lg-6">
+            
+            <div class="input-group">
+              
+              <input type="text"  class="form-control" name="wcptfg_table_name" id="wcptfg_table_name"  value="<?php echo esc_attr(get_option('qtdeMinimaCaracteres')); ?>" />
+              <span class="input-group-btn">
+                <button class="btn btn-default" disabled="disabled"  name="btnCreateTable" id="btnCreateTable" type="button">Create table!</button>
+              </span>
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+      </div><!-- /.row -->
 
+      </td>
+      <tr>
+      <td>
+        <div id="divCreateTable" style="display:none;" >
+
+        <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading"><?php _e('+ Adding new Table','wcptfg'); ?></div>
+              <div class="panel-body">
+                <p><?php _e('This adds a new Wordpress structure to your relational table.','wcptfg'); ?></p>
+              </div>
+
+              <!-- Table -->
+              <table class="table">
+
+                <thead>                
+                  <tr>
+                    <th>#</th>
+                    <th><?php _e('Table Atributes','wcptfg'); ?></th>
+                    <th><?php _e('Atributes Value','wcptfg'); ?></th>                   
+                  </tr>
+                </thead>
+
+                <tbody>
             <?php
               /*
 
@@ -136,30 +143,46 @@ function wcptfg_dashboard()
               <p class="description"><?php _e('The menu name text','wcptfg'); ?></p></td>
             </tr>  
 
-            <!-- Wordpress All items -->
             <tr>
-              <td><label for="wcptfg_all_items"><?php _e('All items','wcptfg'); ?></label></td>
-              <td><input type="text"   name="wcptfg_table_all_items" id="wcptfg_table_all_items" value="<?php echo esc_attr(get_option('wcptfg_all_items')); ?>" /></td>
-              <td class="wcptfg_table_atribute_subtitle">
-              <p class="description"><?php _e('All items text','wcptfg'); ?></p></td>
-            </tr> 
+              <td colspan="3">
+                  <div class="btn-group">
+                    <button type="button" id="btnCancelSaveTable" name="btnCancelSaveTable" class="btn btn-default btn-danger">Cancel</button>
+                    <button type="button" id="btnSaveTable" name="btnSaveTable" class="btn btn-default btn-success">Save</button>                    
+                  </div> 
+              </td>
+            </tr>  
 
+            
+
+          </tbody>
           </table>
-
-          <a id="btnSaveTable" name="btnSaveTable" class="wp-core-ui button-primary" href="#">Save Table </a>
         </div>
-        </td></tr>
-    </table>
+        </div>
+
+         
           
     <!-- Shows all tables created -->
-    <table class="wp-list-table widefat fixed pages wcptfg-table">
-      <tr>
-        <th><?php _e('My Tables','wcptfg'); ?></th>
-        <th><?php _e('Table field','wcptfg'); ?></th>
-        <th><?php _e('Actions','wcptfg'); ?></th>
-      </tr>
-      
-      <?php $wcptfg_created_tables =  new wcptfg_Table('');
+     <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading"><?php _e('Created tables','wcptfg'); ?></div>
+      <div class="panel-body">
+        <p><?php _e('This shows you all tables created by plugin.','wcptfg'); ?></p>
+      </div>
+
+      <!-- Table -->
+      <table class="table">
+
+        <thead>                
+          <tr>
+            <th><?php _e('My Tables','wcptfg'); ?></th>
+            <th><?php _e('Table field','wcptfg'); ?></th>
+            <th><?php _e('Actions','wcptfg'); ?></th>                   
+          </tr>
+        </thead>
+
+        <tbody>
+
+        <?php $wcptfg_created_tables =  new wcptfg_Table('');
 
         $list =  $wcptfg_created_tables->GetList(); 
 
@@ -171,56 +194,37 @@ function wcptfg_dashboard()
             <tr>
               <td><span><a href="#"><?php echo $wcptfg_table->name; ?></a></span></td>
               <td><span><a href="#" id="AddFieldButton" name="AddFieldButton">+ Add Field</a></span></td>
-              <td>Delete</td>
+              <td>
+
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </div>
+
+              </td>
+
             </tr> 
           <?php 
           }
           }?>     
-    </table>
+       </tbody>
+       </table>
+       </div>
 
-    <table class="wp-list-table widefat fixed pages wcptfg-table">
-        <tr valign="top">
-        <th scope="row"><?php _e('My Tables','wcptfg'); ?></th>
-        <td>
-          <fieldset>
-            <legend></legend>
-            <div>
-              <label for="tables"><?php _e('+ Add new Table','wcptfg'); ?></label>
-              <input type="text"  style="width:100px;" name="tables" value="<?php echo esc_attr(get_option('qtdeMinimaCaracteres')); ?>" />
-              <input type="submit"  style="width:100px;" name="btnCreateTable" value="Create" />
-            </div>
-
-            <div>
-              <label for="tables"><?php _e('+ Add new Table','wcptfg'); ?></label>
-              <input type="text"  style="width:100px;" name="tables" value="<?php echo esc_attr(get_option('qtdeMinimaCaracteres')); ?>" />
-              <input type="submit"  style="width:100px;" name="btnCreateTable" value="Create" />
-            </div>
-
-            <br/>  
-
-
-
-          </fieldset>
-          </td>
-        </tr> 
-
-        <tr valign="top">
-        <th scope="row">Tamanho do comentário</th>
-        <td>
-          <fieldset>
-            <legend></legend>
-            
-            <label for="qtdeMinimaCaracteres">Quantidade máxima de caracteres</label>
-            <input type="text" style="width:100px;" name="qtdeMaximaCaracteres" value="<?php echo esc_attr(get_option('qtdeMaximaCaracteres')); ?>" />
-            <small>
-              <em>Se não houver preenchimento, será ilimitado.</em>
-            </small>
-          </fieldset>
-          </td>
-        </tr> 
-
-    </table>    
+  
     <?php submit_button(); ?>
+    </td>
+    </tr>
+    </tr>
+    </table>
 </form>
 </div>
 <?php } 

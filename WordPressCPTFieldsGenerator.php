@@ -28,6 +28,7 @@ function wcptfg_scripts($hook) {
     if( 'edit.php' == $hook )
         return;
     wp_enqueue_script( 'wcptfg_scripts', plugin_dir_url( __FILE__ ) . 'core/js/dashboard.js' );
+     wp_enqueue_script( 'wcptfg_scripts_bootstrap', plugin_dir_url( __FILE__ ) . 'core/js/bootstrap.js' );
 }
 
 add_action( 'admin_enqueue_scripts', 'wcptfg_scripts' );
@@ -38,7 +39,9 @@ add_action( 'admin_enqueue_scripts', 'wcptfg_scripts' );
  function wcptfg_style() {
        
        wp_register_style( 'wcptfg_style', plugins_url('/core/wp-admin.css', __FILE__) );
+       wp_register_style( 'wcptfg_style_bootstrap', plugins_url('/core/bootstrap.min.css', __FILE__) );
 
        wp_enqueue_style( 'wcptfg_style' );
+       wp_enqueue_style( 'wcptfg_style_bootstrap' );
   } 
   ?>

@@ -42,6 +42,7 @@ jQuery(function($)
           if(wcptfg_table_name.trim().length > 0 )
           {
             $( "#btnCreateTable" ).attr( "disabled", false );    
+            $( "#btnCreateTable" ).addClass('btn-success');
 
             $( "#btnCreateTable" ).click(function() {        
               $('#wcptfg_name_label').html( $( "#wcptfg_table_name" ).val());
@@ -53,7 +54,8 @@ jQuery(function($)
           {
             $('#divCreateTable').fadeOut(500);
 
-            $( "#btnCreateTable" ).attr( "disabled", true );          
+            $( "#btnCreateTable" ).attr( "disabled", true );  
+            $( "#btnCreateTable" ).removeClass('btn-success');        
 
             $("#btnCreateTable").click(function(e){
                     e.preventDefault();
