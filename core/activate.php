@@ -62,10 +62,10 @@ function wcptfg_install_data() {
  	$metaboxes = new wcptfg_Metaboxes('sample', 'Sample Fields', array($sample_table_name));
  	$metabox_id = $metaboxes->Save();
 
- 	$samplefield = new wcptfg_field('Full People Name: ', 'full-name', 'This will be used latter', 'char(10)', $metabox_id, false);
+ 	$samplefield = new wcptfg_field('Full People Name: ', 'full-name', 'This will be used latter', 'char(10)', $metabox_id, false, 'input', '', true, 'Your name here');
  	$samplefield->Save();
 
- 	$samplefield = new wcptfg_field('E-mail', 'email', 'This will be used latter', 'char(10)', $metabox_id, false);
+ 	$samplefield = new wcptfg_field('E-mail', 'email', 'This will be used latter', 'char(10)', $metabox_id, false , 'input', '', false, 'user@mail.com');
  	$samplefield->Save();
 
  	$metabox_id = 0;
@@ -74,10 +74,10 @@ function wcptfg_install_data() {
  	$metaboxes = new wcptfg_Metaboxes('second-sample', 'Second Sample Fields', array($sample_table_name));
  	$metabox_id = $metaboxes->Save();
 
- 	$samplefield = new wcptfg_field( 'Address: ', 'address-1', 'Full Address', 'char(100)', $metabox_id, false);
+ 	$samplefield = new wcptfg_field( 'Address: ', 'address-1', 'Full Address', 'char(100)', $metabox_id, false, 'input', '', false, 'Street Name, number...');
  	$samplefield->Save();
 
- 	$samplefield = new wcptfg_field('Zip Code: ', 'zip-code',  'The zip code', 'char(10)', $metabox_id, false);
+ 	$samplefield = new wcptfg_field('Zip Code: ', 'zip-code',  'The zip code', 'char(10)', $metabox_id, false, 'input', '', false, '00000-000');
  	$samplefield->Save();
 
 } ?>

@@ -57,8 +57,12 @@ function wcptfg_generate_fields_structure()
 		  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 		  name tinytext NOT NULL,
 		  title text NOT NULL,		  
+		  title_as_placeholder TINYINT(1) DEFAULT 0 NOT NULL,	  
+		  placeholder text DEFAULT '' NOT NULL,	
 		  metabox_id text NOT NULL,		  
 		  mysqltype VARCHAR(55) DEFAULT 'VARCHAR(55)' NOT NULL,
+		  html_element VARCHAR(55) DEFAULT 'input' NOT NULL,
+		  initial_values text DEFAULT '' NOT NULL,
 		  UNIQUE KEY id (id)
 		    );";	
 

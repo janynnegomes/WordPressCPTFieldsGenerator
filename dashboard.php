@@ -62,7 +62,7 @@ function wcptfg_dashboard()
               <!-- Default panel contents -->
               <div class="panel-heading"><?php _e('+ Adding new Table','wcptfg'); ?></div>
               <div class="panel-body">
-                <p><?php _e('This adds a new Wordpress structure to your relational table.','wcptfg'); ?></p>
+                <p><?php _e('This adds a new Wordpress structure as your relational table.','wcptfg'); ?></p>
               </div>
 
               <!-- Table -->
@@ -126,7 +126,7 @@ function wcptfg_dashboard()
               <td class="wcptfg_table_atribute_subtitle">
               <p class="description"><?php _e('The add new text','wcptfg'); ?></p></td>
             </tr>
-
+    
             <!-- Wordpress Add New -->
             <tr>
               <td><label for="wcptfg_add_new_item"><?php _e('Add new item','wcptfg'); ?></label></td>
@@ -159,7 +159,63 @@ function wcptfg_dashboard()
         </div>
         </div>
 
-         
+    <!-- user input dialog -->
+    <div class="modal panel panel-default" id="prompt">
+
+      <!-- Default panel contents -->
+        <div class="panel-heading"><?php _e('+ Adding new Field','wcptfg'); ?></div>
+        <div class="panel-body">
+          <p><?php _e('This adds fields grouped to your screens.','wcptfg'); ?></p>
+        </div>
+
+         <!-- Table -->
+              <table class="table">
+
+                <thead>                
+                  <tr>
+                    <th>#</th>
+                    <th><?php _e('Table Atributes','wcptfg'); ?></th>
+                    <th><?php _e('Atributes Value','wcptfg'); ?></th>                   
+                  </tr>
+                </thead>
+
+                <tbody>         
+
+            <!-- Table Name -->  
+            <tr>
+              <td><label for="wcptfg_name"><?php _e('Table Name','wcptfg'); ?></label></td>
+              <td><label for="wcptfg_name" id="wcptfg_name_label">-----</label></td>
+            </tr>
+
+            <tr>
+              <td colspan="2"><label class="bold"><?php _e('Wordpress Labels Required','wcptfg'); ?></label></td>
+              <td></td>
+            </tr>
+
+            <!-- Wordpress Singular Name-->
+            <tr>
+              <td><label for="wcptfg_table_singular_name"><?php _e('Singular Name','wcptfg'); ?></label></td>
+              <td><input type="text"  id="wcptfg_table_singular_name"   name="wcptfg_table_singular_name" value="<?php echo esc_attr(get_option('wcptfg_singular_name')); ?>" /></td>
+              <td class="wcptfg_table_atribute_subtitle">
+              <p class="description"><?php _e('Name for one object of this post type. Defaults to value of name','wcptfg'); ?></p></td>
+            </tr>
+
+           
+            <tr>
+              <td colspan="3">
+                  <div class="btn-group">
+                    <a  id="btnCancelSaveTable" name="btnCancelSaveTable" class="btn btn-default btn-danger close">Cancel</a>
+                    <a  id="btnSaveField" name="btnSaveField" class="btn btn-default btn-success close">Save</a>                    
+                  </div> 
+              </td>
+            </tr>              
+
+          </tbody>
+          </table>     
+</div>
+
+
+
           
     <!-- Shows all tables created -->
      <div class="panel panel-default">
@@ -193,7 +249,7 @@ function wcptfg_dashboard()
              ?>
             <tr>
               <td><span><a href="#"><?php echo $wcptfg_table->name; ?></a></span></td>
-              <td><span><a href="#" id="AddFieldButton" name="AddFieldButton">+ Add Field</a></span></td>
+              <td><span><a href="#" class="modalInput" rel="#prompt" id="AddFieldButton" name="AddFieldButton">+ Add Field</a></span></td>
               <td>
 
               <div class="btn-group">
@@ -233,7 +289,7 @@ function wcptfg_dashboard()
 
 function wcptfg_embed_style()
 {
-  $wp_admin_path = plugin_dir_url(__FILE__) . '/js/wp-admin.css'
+  $wp_admin_path = plugin_dir_url(__FILE__) . '/wp-admin.css'
   ?>
   <style type="text/css">            
           @import url( <?php echo $wp_admin_path; ?>);

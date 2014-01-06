@@ -27,8 +27,9 @@ register_activation_hook( __FILE__, 'wcptfg_install_data' );
 function wcptfg_scripts($hook) {
     if( 'edit.php' == $hook )
         return;
-    wp_enqueue_script( 'wcptfg_scripts', plugin_dir_url( __FILE__ ) . 'core/js/dashboard.js' );
-     wp_enqueue_script( 'wcptfg_scripts_bootstrap', plugin_dir_url( __FILE__ ) . 'core/js/bootstrap.js' );
+     wp_enqueue_script( 'wcptfg_scripts', plugin_dir_url( __FILE__ ) . 'core/js/dashboard.js' );
+     wp_enqueue_script( 'wcptfg_scripts_jquery_tools', plugin_dir_url( __FILE__ ) . 'core/js/jquery.tools.min.js' );
+     wp_enqueue_script( 'wcptfg_scripts_wp-admin-modal', plugin_dir_url( __FILE__ ) . 'core/js/wp-admin-modal.js' );
 }
 
 add_action( 'admin_enqueue_scripts', 'wcptfg_scripts' );
